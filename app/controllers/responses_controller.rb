@@ -1,6 +1,6 @@
 class ResponsesController < ApplicationController
   def show
-    @responses = Response.where(text: params[:text])
+    @responses = ResponseFinder.new().find(params[:text])
     render json: @responses
   end
 end

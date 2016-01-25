@@ -1,11 +1,6 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  url: MyText
-  text: MyText
-  hero: MyText
-
-two:
-  url: MyText
-  text: MyText
-  hero: MyText
+  url: http://hydra-media.cursecdn.com/dota2.gamepedia.com/8/8f/Lion_level_01.mp3
+  text: oh, such strength is mine
+  hero: Lion
