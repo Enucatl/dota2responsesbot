@@ -1,14 +1,16 @@
 require 'test_helper'
 
 class TelegramControllerTest < ActionController::TestCase
+
   test "should send a telegram message" do
-    post :response, {
+    post(:show, {
       message: {
-        chat: {id: 5664585},
+        chat: {id: 62030274},
         text: "oh, such strength is mine",
-        message_id: 68507
+        message_id: 88
       }
-    }
-    p JSON.parse(@response.body)
+    })
+    assert @response.status == 200
   end
+
 end

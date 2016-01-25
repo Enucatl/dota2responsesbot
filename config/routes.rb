@@ -6,9 +6,9 @@ Rails.application.routes.draw do
   # root 'welcome#index'
 
   # Example of regular route:
-  post 'response' => 'responses#show'
+  post 'show' => 'responses#show'
   #post Rails.application.secrets[:telegram_token] => 'telegram#response'
-  post 'telegram' => 'telegram#response'
+  post 'telegram' => 'telegram#show'
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
