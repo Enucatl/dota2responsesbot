@@ -27,7 +27,7 @@ set :deploy_to, '/home/dota2responsesbot/dota2responsesbot'
 
 # Default value for linked_dirs is []
 #
-# set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system')
+#set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system')
 set :default_env, { path: "$HOME/.rvm/bin:$PATH" }
 
 # how many old releases do we want to keep
@@ -35,7 +35,7 @@ set :keep_releases, 5
 
 # which config files should be made executable after copying
 # by deploy:setup_config
-set(:executable_config_files, %w(unicorn_init.sh))
+#set(:executable_config_files, %w(unicorn_init.sh))
 
 namespace :deploy do
 
@@ -43,21 +43,13 @@ namespace :deploy do
 
   after :publishing, :restart
 
-  after :restart, :clear_cache do
-    on roles(:web), in: :groups, limit: 3, wait: 10 do
-      # Here we can do anything such as:
-      #within release_path do
-      #execute :rake, 'cache:clear'
-      #end
-    end
-  end
-
   # override default tasks to make capistrano happy
   desc "Start unicorn"
   task :start do
     on roles(:app) do
-      within release_path do
-        run "bundle exec unicorn -c config/unicorn.rb -E production -D"
+      within current_path do
+        execute "mkdir -p #{current_path}/tmp/pids"
+        execute :bundle, "exec unicorn -c #{current_path}/config/unicorn.rb -E production -D"
       end
     end
   end
@@ -65,14 +57,27 @@ namespace :deploy do
   desc "Kick unicorn"
   task :restart do
     on roles :app do
-      execute "kill -USR2 `cat #{current_path}/tmp/pids/unicorn.pid`"
+      within current_path do
+        execute "kill -USR2 `cat #{current_path}/tmp/pids/unicorn.pid`"
+      end
     end
   end
 
   desc "Kill a unicorn"
   task :stop do 
     on roles :app do
-      execute "kill -QUIT `cat #{current_path}/tmp/pids/unicorn.pid`"
+      within current_path do
+        execute "kill -QUIT `cat #{current_path}/tmp/pids/unicorn.pid`"
+      end
+    end
+  end
+
+  after :restart, :clear_cache do
+    on roles(:web), in: :groups, limit: 3, wait: 10 do
+      # Here we can do anything such as:
+      #within release_path do
+      #execute :rake, 'cache:clear'
+      #end
     end
   end
 
