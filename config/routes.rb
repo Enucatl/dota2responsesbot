@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
   # Example of regular route:
   post 'show' => 'responses#show'
+  get 'show' => 'responses#show'
   #post Rails.application.secrets[:telegram_token] => 'telegram#response'
   post 'telegram' => 'telegram#show'
 
