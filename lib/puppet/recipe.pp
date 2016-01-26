@@ -4,6 +4,10 @@ package { 'fail2ban':
 
 class { 'locales': }
 
+package { 'libpq-dev':
+  ensure => present,
+}
+
 package { 'postgresql-server-dev-all':
   ensure => present,
 }
