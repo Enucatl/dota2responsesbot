@@ -4,7 +4,7 @@ task :puppet do
     upload! "lib/puppet/Puppetfile", "Puppetfile"
     execute "r10k puppetfile check"
     execute "r10k puppetfile install"
-    upload! "lib/puppet/rails-do.pp", "rails-do.pp"
-    execute "puppet apply rails-do.pp"
+    upload! "lib/puppet/recipe.pp", "recipe.pp"
+    execute "puppet apply recipe.pp"
   end
 end

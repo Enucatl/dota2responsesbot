@@ -1,3 +1,9 @@
+GIT
+  remote: https://github.com/Enucatl/secrets.git
+  revision: c0bd3386f312b0f9f05f3f6b7b8815df28b53801
+  specs:
+    yml-secrets (0.0.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -113,7 +119,7 @@ GEM
       activesupport (>= 4.2.0.beta, < 5.0)
       nokogiri (~> 1.6.0)
       rails-deprecated_sanitizer (>= 1.0.1)
-    rails-html-sanitizer (1.0.2)
+    rails-html-sanitizer (1.0.3)
       loofah (~> 2.0)
     railties (4.2.5)
       actionpack (= 4.2.5)
@@ -186,6 +192,7 @@ DEPENDENCIES
   turbolinks
   uglifier (>= 1.3.0)
   web-console (~> 2.0)
+  yml-secrets!
 
 BUNDLED WITH
    1.11.2

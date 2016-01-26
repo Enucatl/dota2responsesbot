@@ -47,6 +47,7 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
 
+  gem 'yml-secrets', git: 'https://github.com/Enucatl/secrets.git'
   # capistrano tasks
   gem 'rest-client'
   gem 'capistrano'

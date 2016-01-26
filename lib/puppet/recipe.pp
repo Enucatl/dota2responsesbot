@@ -72,8 +72,6 @@ class { 'ssh::server':
   },
 }
 
-include apt::unattended_upgrades
-
 file { ['/home/dota2responsesbot/dota2responsesbot',
 '/home/dota2responsesbot/dota2responsesbot/releases',
 '/home/dota2responsesbot/dota2responsesbot/shared']:
@@ -83,6 +81,7 @@ file { ['/home/dota2responsesbot/dota2responsesbot',
 }
 
 class { 'postgresql::server':
+  listen_addresses => "",
   require => Class['locales'],
 }
 
@@ -96,7 +95,7 @@ exec { "gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A17031
   logoutput => true,
   cwd => "/home/dota2responsesbot",
   user => "dota2responsesbot",
-  before => Single_user_rvm::Install["dota2responsesbot"]
+  before => Single_user_rvm::Install["dota2responsesbot"],
   unless => "gpg --list-keys 409B6B1796C275462A1703113804BB82D39DC0E3",
   require => User["dota2responsesbot"],
 }
@@ -118,7 +117,7 @@ exec { "su -l dota2responsesbot -c 'rvm get stable --auto-dotfiles; rvm use --de
 
 class { 'nginx': }
 
-nginx::resource::upstream { 'unicorn':
+nginx::resource::upstream { 'dota2responsesbot-unicorn':
   members => [
     'unix:/tmp/unicorn.dota2responsesbot.sock fail_timeout=0',
   ],
@@ -126,6 +125,7 @@ nginx::resource::upstream { 'unicorn':
 
 nginx::resource::vhost { 'dota2responsesbot':
   ensure => present,
+  listen_port => 8080,
   listen_options => 'deferred',
   client_max_body_size => '20M',
   www_root => '/home/dota2responsesbot/dota2responsesbot/current/public',
