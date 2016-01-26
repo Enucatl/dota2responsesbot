@@ -133,7 +133,9 @@ nginx::resource::upstream { 'dota2responsesbot-unicorn':
 
 nginx::resource::vhost { 'dota2responsesbot':
   ensure => present,
-  listen_port => 88,
+  ssl => true,
+  listen_port => 443,
+  ssl_port => 443,
   listen_options => 'deferred',
   client_max_body_size => '20M',
   www_root => '/home/dota2responsesbot/dota2responsesbot/current/public',
@@ -148,6 +150,8 @@ nginx::resource::location { 'dota2responsesbot-assets-location':
   ensure => present,
   location => "~ ^/assets/",
   vhost => 'dota2responsesbot',
+  ssl => true,
+  ssl_only => true,
   location_custom_cfg => {
     root => '/home/dota2responsesbot/dota2responsesbot/current/public',
     gzip_static => "on",
@@ -160,6 +164,8 @@ nginx::resource::location { 'dota2responsesbot-unicorn-location':
   ensure => present,
   location => "@unicorn",
   vhost => 'dota2responsesbot',
+  ssl => true,
+  ssl_only => true,
   location_custom_cfg => {
     proxy_set_header => {
       'X-Forwarded-For' => '$proxy_add_x_forwarded_for',
