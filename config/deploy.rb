@@ -41,16 +41,6 @@ namespace :deploy do
 
   desc 'Restart application'
 
-  %w[start stop restart].each do |command|
-    desc "#{command} unicorn server"
-    task command do
-      on roles(:app), except: {no_release: true} do
-        execute "mkdir -p #{current_path}/tmp/pids"
-        execute "#{current_path}/config/unicorn_init.sh #{command}"
-      end
-    end
-  end
-
   after :publishing, :restart
 
   after :restart, :clear_cache do
@@ -62,5 +52,28 @@ namespace :deploy do
     end
   end
 
-end
+  # override default tasks to make capistrano happy
+  desc "Start unicorn"
+  task :start do
+    on roles(:app) do
+      within release_path do
+        run "bundle exec unicorn -c config/unicorn.rb -E production -D"
+      end
+    end
+  end
 
+  desc "Kick unicorn"
+  task :restart do
+    on roles :app do
+      execute "kill -USR2 `cat #{current_path}/tmp/pids/unicorn.pid`"
+    end
+  end
+
+  desc "Kill a unicorn"
+  task :stop do 
+    on roles :app do
+      execute "kill -QUIT `cat #{current_path}/tmp/pids/unicorn.pid`"
+    end
+  end
+
+end
