@@ -4,12 +4,19 @@ package { 'fail2ban':
 
 class { 'locales': }
 
-package {
-  'build-essentials',
-  'libgmp-dev',
-  'libpq-dev',
-  'postgresql-server-dev-all',
-} :
+package { 'build-essential':
+  ensure => present,
+}
+
+package { 'libgmp-dev':
+  ensure => present,
+}
+
+package { 'libpq-dev':
+  ensure => present,
+}
+
+package { 'postgresql-server-dev-all':
   ensure => present,
 }
 
@@ -60,7 +67,7 @@ ufw::allow { "allow-ssh-from-all":
 }
 
 ufw::allow { "allow-http":
-  port => 8080
+  port => 88
 }
 
 ufw::allow { "allow-https":
@@ -126,7 +133,7 @@ nginx::resource::upstream { 'dota2responsesbot-unicorn':
 
 nginx::resource::vhost { 'dota2responsesbot':
   ensure => present,
-  listen_port => 8080,
+  listen_port => 88,
   listen_options => 'deferred',
   client_max_body_size => '20M',
   www_root => '/home/dota2responsesbot/dota2responsesbot/current/public',
