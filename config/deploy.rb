@@ -39,33 +39,28 @@ set(:executable_config_files, %w(unicorn_init.sh))
 
 namespace :deploy do
 
-    desc 'Restart application'
-    task :restart do
-        on roles(:app), in: :sequence, wait: 5 do
-            # Your restart mechanism here, for example:
-            # execute :touch, release_path.join('tmp/restart.txt')
-        end
-    end
+  desc 'Restart application'
 
-    %w[start stop restart].each do |command|
-        desc "#{command} unicorn server"
-        task command do
-            on roles(:app), except: {no_release: true} do
-                execute "#{current_path}/config/unicorn_init.sh #{command}"
-            end
-        end
+  %w[start stop restart].each do |command|
+    desc "#{command} unicorn server"
+    task command do
+      on roles(:app), except: {no_release: true} do
+        execute "mkdir -p #{current_path}/tmp/pids"
+        execute "#{current_path}/config/unicorn_init.sh #{command}"
+      end
     end
+  end
 
-    after :publishing, :restart
+  after :publishing, :restart
 
-    after :restart, :clear_cache do
-        on roles(:web), in: :groups, limit: 3, wait: 10 do
-            # Here we can do anything such as:
-            #within release_path do
-            #execute :rake, 'cache:clear'
-            #end
-        end
+  after :restart, :clear_cache do
+    on roles(:web), in: :groups, limit: 3, wait: 10 do
+      # Here we can do anything such as:
+      #within release_path do
+      #execute :rake, 'cache:clear'
+      #end
     end
+  end
 
 end
 

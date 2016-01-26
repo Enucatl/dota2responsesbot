@@ -13,7 +13,7 @@ set -e
 # Feel free to change any of the following variables for your app:
 TIMEOUT=${TIMEOUT-60}
 APP_ROOT=/home/dota2responsesbot/dota2responsesbot/current
-PID=$APP_ROOT/tmp/unicorn.pid
+PID=$APP_ROOT/tmp/pids/unicorn.pid
 CMD="cd $APP_ROOT; ~/.rvm/bin/rvm default do bundle exec unicorn -D -c $APP_ROOT/config/unicorn.rb -E production"
 AS_USER=dota2responsesbot
 set -u
