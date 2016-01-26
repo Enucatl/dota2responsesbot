@@ -4,15 +4,12 @@ package { 'fail2ban':
 
 class { 'locales': }
 
-package { 'libpq-dev':
-  ensure => present,
-}
-
-package { 'postgresql-server-dev-all':
-  ensure => present,
-}
-
-package { 'nodejs':
+package {
+  'build-essentials',
+  'libgmp-dev',
+  'libpq-dev',
+  'postgresql-server-dev-all',
+} :
   ensure => present,
 }
 
