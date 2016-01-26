@@ -4,7 +4,7 @@
 # is considered to be the first unless any hosts have the primary
 # property set.  Don't declare `role :all`, it's a meta role.
 
-host = YAML.load_file("config/digitalocean.yml")["digitalocean"]["droplet_ip"]
+host = YAML.load_file("config/digitalocean.yml")[:digitalocean]["droplet_ip"]
 
 user = "dota2responsesbot"
 role :app, "#{user}@#{host}"
