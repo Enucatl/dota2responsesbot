@@ -47,28 +47,22 @@ namespace :deploy do
   desc "Start unicorn"
   task :start do
     on roles(:app) do
-      within current_path do
-        execute "mkdir -p #{current_path}/tmp/pids"
-        execute :bundle, "exec unicorn -c #{current_path}/config/unicorn.rb -E production -D"
-      end
+      execute "mkdir -p #{shared_path}/tmp/pids"
+      execute :bundle, "exec unicorn -c #{shared_path}/config/unicorn.rb -E production -D"
     end
   end
 
   desc "Kick unicorn"
   task :restart do
     on roles :app do
-      within current_path do
-        execute "kill -USR2 `cat #{current_path}/tmp/pids/unicorn.pid`"
-      end
+      execute "kill -USR2 `cat #{shared_path}/tmp/pids/unicorn.pid`"
     end
   end
 
   desc "Kill a unicorn"
   task :stop do 
     on roles :app do
-      within current_path do
-        execute "kill -QUIT `cat #{current_path}/tmp/pids/unicorn.pid`"
-      end
+      execute "kill -QUIT `cat #{shared_path}/tmp/pids/unicorn.pid`"
     end
   end
 
