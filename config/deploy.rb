@@ -43,6 +43,16 @@ namespace :deploy do
 
   after :publishing, :restart
 
+  before :publishing, :upload_yml
+
+  desc "Upload database.yml file."
+  task :upload_yml do
+    on roles(:app) do
+      execute "mkdir -p #{shared_path}/config"
+      upload! StringIO.new(File.read("config/database.yml")), "#{shared_path}/config/database.yml"
+    end
+  end
+
   # override default tasks to make capistrano happy
   desc "Start unicorn"
   task :start do

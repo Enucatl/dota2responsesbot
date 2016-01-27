@@ -17,7 +17,7 @@ listen "/tmp/unicorn.dota2responsesbot.sock"
 
 # Number of processes
 # worker_processes 4
-worker_processes 3
+worker_processes 1
 
 # Time-out
 timeout 30
