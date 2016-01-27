@@ -1,6 +1,7 @@
 class TelegramController < ApplicationController
 
   def show
+
     message = params[:message]
     if message.key?(:text)
       chat_id = message[:chat][:id]
