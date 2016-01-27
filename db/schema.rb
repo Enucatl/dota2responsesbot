@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 20160125121047) do
     t.text     "url"
     t.text     "text"
     t.text     "hero"
+    t.text     "match"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

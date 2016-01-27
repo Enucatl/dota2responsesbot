@@ -1,5 +1,6 @@
 class ResponseFinder
   def find(text)
-    return Response.where(text: text)
+    to_be_matched = text.downcase.gsub(/[^a-z]/, '')
+    return Response.where(match: to_be_matched)
   end
 end
