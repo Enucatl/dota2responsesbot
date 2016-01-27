@@ -14,4 +14,5 @@
 
 config/secrets.yml
 config/digitalocean.yml
+config/database.yml
 *.pem

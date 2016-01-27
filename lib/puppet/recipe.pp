@@ -100,7 +100,7 @@ class { 'postgresql::server':
 
 postgresql::server::db { 'dota2responsesbot_production':
   user => 'dota2responsesbot',
-  password => '',
+  password => 'md58328b143eabb3fc8a2ab7d354bc27ce2'
 }
 
 exec { "gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3":
