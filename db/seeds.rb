@@ -33,6 +33,7 @@ end
 responses.each do |response, url|
   short_hero = short_hero_name_from_url url
   hero = heroes[short_hero]
+  p hero
   Response.create(hero: hero, text: response, url: url, match: response.downcase.gsub(/[^a-z]/, ''))
 end
 
