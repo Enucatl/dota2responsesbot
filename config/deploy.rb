@@ -47,8 +47,10 @@ namespace :deploy do
   desc "Start unicorn"
   task :start do
     on roles(:app) do
-      execute "mkdir -p #{shared_path}/tmp/pids"
-      execute :bundle, "exec unicorn -c #{shared_path}/config/unicorn.rb -E production -D"
+      within current_path do
+        execute "mkdir -p #{shared_path}/tmp/pids"
+        execute :bundle, "exec unicorn -c #{current_path}/config/unicorn.rb -E production -D"
+      end
     end
   end
 

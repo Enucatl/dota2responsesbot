@@ -191,11 +191,11 @@ file { '/home/dota2responsesbot/dota2responsesbot/ssl':
 }
 
 exec { 'ssl_certificates':
-  command => 'openssl req -newkey rsa:2048 -sha256 -nodes -keyout selfsigned.key -x509 -days 365 -out selfsigned.pem -subj "/C=CH/L=Zurich/O=Enucatl"',
+  command => "openssl req -newkey rsa:2048 -sha256 -nodes -keyout selfsigned.key -x509 -days 365 -out selfsigned.pem -subj '/C=CH/L=Zurich/O=Enucatl/CN=$ipaddress'",
   path => '/usr/bin',
   group => 'dota2responsesbot',
   user => 'dota2responsesbot',
   cwd => '/home/dota2responsesbot/dota2responsesbot/ssl',
   creates => '/home/dota2responsesbot/dota2responsesbot/ssl/selfsigned.pem',
-  before => Nginx::Resource::Vhost['dota2responsesbot']
+  notify => Nginx::Resource::Vhost['dota2responsesbot']
 }
