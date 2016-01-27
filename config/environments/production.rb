@@ -53,6 +53,7 @@ Rails.application.configure do
 
   # Use a different logger for distributed setups.
   config.logger = Logger.new(config.paths["log"].first, 5, 104857600)
+  config.logger.level = Logger::INFO
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
@@ -73,7 +74,6 @@ Rails.application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
-  config.log_level = Logger::INFO
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
