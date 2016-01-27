@@ -8,10 +8,17 @@ namespace :telegram do
 
   desc "set telegram webhook"
   task :set_webhook do
-    url = "https://api.telegram.org/bot#{secrets["production"]["telegram_token"]}/setWebHook?url=https://#{digitalocean["digitalocean"]["droplet_ip"]}:88/telegram"
+    host = digitalocean["digitalocean"]["droplet_ip"]
+    system "scp dota2responsesbot@#{host}:~/dota2responsesbot/ssl/selfsigned.pem ."
+    url = "https://api.telegram.org/bot#{secrets["production"]["telegram_token"]}/setWebHook"
     p url
-    response = JSON.parse(RestClient.get(url))
-    p response
+    response = RestClient.post(
+      url, {
+        url: "https://#{host}/telegram",
+        certificate: File.new("selfsigned.pem")
+      }
+    )
+    p JSON.parse(response)
   end
 
 end

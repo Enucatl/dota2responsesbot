@@ -4,6 +4,11 @@ package { 'fail2ban':
 
 class { 'locales': }
 
+package { 'openssl':
+  ensure => present,
+  before => Exec['ssl_certificates'],
+}
+
 package { 'build-essential':
   ensure => present,
 }
@@ -136,13 +141,15 @@ nginx::resource::vhost { 'dota2responsesbot':
   ssl => true,
   listen_port => 443,
   ssl_port => 443,
+  ssl_cert => '/home/dota2responsesbot/dota2responsesbot/ssl/selfsigned.pem',
+  ssl_key => '/home/dota2responsesbot/dota2responsesbot/ssl/selfsigned.key',
   listen_options => 'deferred',
   client_max_body_size => '20M',
   www_root => '/home/dota2responsesbot/dota2responsesbot/current/public',
   try_files => ['$uri/index.html', '$uri', '@unicorn'],
   vhost_cfg_append => {
     error_page => '500 502 503 504 /500.html',
-    keepalive_timeout => 10
+    keepalive_timeout => 10,
   },
 }
 
@@ -174,4 +181,21 @@ nginx::resource::location { 'dota2responsesbot-unicorn-location':
     proxy_redirect => 'off',
     proxy_pass => 'http://unicorn'
   },
+}
+
+file { '/home/dota2responsesbot/dota2responsesbot/ssl':
+  ensure => "directory",
+  owner => 'dota2responsesbot',
+  group => 'dota2responsesbot',
+  before => Exec['ssl_certificates'],
+}
+
+exec { 'ssl_certificates':
+  command => 'openssl req -newkey rsa:2048 -sha256 -nodes -keyout selfsigned.key -x509 -days 365 -out selfsigned.pem -subj "/C=CH/L=Zurich/O=Enucatl"',
+  path => '/usr/bin',
+  group => 'dota2responsesbot',
+  user => 'dota2responsesbot',
+  cwd => '/home/dota2responsesbot/dota2responsesbot/ssl',
+  creates => '/home/dota2responsesbot/dota2responsesbot/ssl/selfsigned.pem',
+  before => Nginx::Resource::Vhost['dota2responsesbot']
 }
