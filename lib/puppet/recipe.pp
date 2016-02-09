@@ -9,6 +9,14 @@ package { 'openssl':
   before => Exec['ssl_certificates'],
 }
 
+package { 'libopus0':
+  ensure => present,
+}
+
+package { 'libav-tools':
+  ensure => present,
+}
+
 package { 'build-essential':
   ensure => present,
 }

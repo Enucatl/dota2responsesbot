@@ -20,7 +20,26 @@ class TelegramControllerTest < ActionController::TestCase
         message_id: 88
       }
     })
-    assert @response.status == 200
+    assert JSON.parse(@response.body)["cached"] == "false"
   end
+
+  test "should have a file_id from the previous test" do
+    post(:show, {
+      message: {
+        chat: {id: 62030274},
+        text: "oh, such strength is mine",
+        message_id: 88
+      }
+    })
+    post(:show, {
+      message: {
+        chat: {id: 62030274},
+        text: "oh, such strength is mine",
+        message_id: 88
+      }
+    })
+    assert JSON.parse(@response.body)["cached"] == "true"
+  end
+
 
 end

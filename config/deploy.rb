@@ -27,7 +27,7 @@ set :linked_files, fetch(:linked_files, []).push('config/database.yml')
 
 # Default value for linked_dirs is []
 #
-#set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system')
+set :linked_dirs, fetch(:linked_dirs, []).push('tmp/pids', 'tmp/cache', 'tmp/sockets', 'tmp/ogg')
 set :default_env, { path: "$HOME/.rvm/bin:$PATH" }
 
 # how many old releases do we want to keep
