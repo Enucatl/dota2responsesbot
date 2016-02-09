@@ -3,8 +3,7 @@ class TelegramController < ApplicationController
   def show
     message = params[:message]
     unless message.key?(:text)
-      head :ok, content_type: "text/html"
-      return
+      render json: {ok: "true"}
     end
     chat_id = message[:chat][:id]
     found = ResponseFinder.new.find(message[:text]).to_a
@@ -29,8 +28,10 @@ class TelegramController < ApplicationController
           voice: tmp_file
         )
         tmp_file.unlink
-        hero_response.file_id = telegram_response["result"]["voice"]["file_id"]
-        hero_response.save
+        if telegram_response.key?(:result)
+          hero_response.file_id = telegram_response["result"]["voice"]["file_id"]
+          hero_response.save
+        end
         render json: {cached: "false"}
       end
     end
