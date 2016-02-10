@@ -10,7 +10,7 @@ class TelegramController < ApplicationController
     found = ResponseFinder.new.find(message[:text]).to_a
     unless found.empty?
       hero_response = found.sample
-      logger.info hero_response
+      logger.debug hero_response
       if hero_response.file_id?
         # file already uploaded to telegram servers
         telegram_response = Telegramapi.new.send_voice(
