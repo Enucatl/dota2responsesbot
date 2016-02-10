@@ -9,13 +9,15 @@ class TelegramController < ApplicationController
     found = ResponseFinder.new.find(message[:text]).to_a
     unless found.empty?
       hero_response = found.sample
+      logger.info hero_response
       if hero_response.file_id?
         # file already uploaded to telegram servers
-        Telegramapi.new.send_voice(
+        telegram_response = Telegramapi.new.send_voice(
           chat_id: chat_id,
           reply_to_message_id: message[:message_id],
           voice: hero_response.file_id
         )
+        logger.info({cached: true, telegram: telegram_response})
         render json: {cached: "true"}
       else
         # need to upload a new file
@@ -32,6 +34,7 @@ class TelegramController < ApplicationController
           hero_response.file_id = telegram_response["result"]["voice"]["file_id"]
           hero_response.save
         end
+        logger.info({cached: false, telegram: telegram_response})
         render json: {cached: "false"}
       end
     end
