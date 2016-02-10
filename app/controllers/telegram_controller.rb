@@ -17,7 +17,7 @@ class TelegramController < ApplicationController
           reply_to_message_id: message[:message_id],
           voice: hero_response.file_id
         )
-        logger.info({cached: true, telegram: telegram_response})
+        logger.debug({cached: true, telegram: telegram_response})
         render json: {cached: "true"}
       else
         # need to upload a new file
@@ -34,10 +34,11 @@ class TelegramController < ApplicationController
           hero_response.file_id = telegram_response["result"]["voice"]["file_id"]
           hero_response.save
         end
-        logger.info({cached: false, telegram: telegram_response})
+        logger.debug({cached: false, telegram: telegram_response})
         render json: {cached: "false"}
       end
     end
+    render json: {ok: "true"}
   end
 
 end
