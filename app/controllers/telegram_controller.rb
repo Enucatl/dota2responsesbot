@@ -13,11 +13,15 @@ class TelegramController < ApplicationController
       logger.debug hero_response
       if hero_response.file_id?
         # file already uploaded to telegram servers
-        telegram_response = Telegramapi.new.send_voice(
-          chat_id: chat_id,
-          reply_to_message_id: message[:message_id],
-          voice: hero_response.file_id
-        )
+        begin
+          telegram_response = Telegramapi.new.send_voice(
+            chat_id: chat_id,
+            reply_to_message_id: message[:message_id],
+            voice: hero_response.file_id
+          )
+        rescue Telegram::Bot::Exceptions::ResponseError => e
+          logger.error(e.message)
+        end
         logger.debug({cached: true, telegram: telegram_response})
         render json: {cached: "true"}
       else
@@ -25,11 +29,15 @@ class TelegramController < ApplicationController
         tmp_file = Tempfile.new(["voice-", ".ogg"], "tmp/ogg")
         command = "curl #{hero_response[:url]} | avconv -y -i - -map 0:a -codec:a opus -b:a 64k -vbr on #{tmp_file.path}"
         system command
-        telegram_response = Telegramapi.new.send_voice(
-          chat_id: chat_id,
-          reply_to_message_id: message[:message_id],
-          voice: tmp_file
-        )
+        begin
+          telegram_response = Telegramapi.new.send_voice(
+            chat_id: chat_id,
+            reply_to_message_id: message[:message_id],
+            voice: tmp_file
+          )
+        rescue Telegram::Bot::Exceptions::ResponseError => e
+          logger.error(e.message)
+        end
         tmp_file.unlink
         if telegram_response.key? "result"
           hero_response.file_id = telegram_response["result"]["voice"]["file_id"]
