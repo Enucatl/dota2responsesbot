@@ -1,8 +1,9 @@
 class TelegramController < ApplicationController
 
   def show
-    message = params[:message]
+    message = params[:message] ||= {}
     unless message.key?(:text)
+      logger.error "no text found in query: #{params}"
       render json: {ok: "true"}
       return
     end
