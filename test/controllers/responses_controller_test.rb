@@ -11,7 +11,7 @@ class ResponsesControllerTest < ActionController::TestCase
    test "blacklisted response" do
      text = "hahahaha"
      post :show, {text: text}
-     assert JSON.parse(@response.body)[0]["text"] == text
+     assert JSON.parse(@response.body) == []
    end
 
 

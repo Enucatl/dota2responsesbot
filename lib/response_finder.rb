@@ -12,7 +12,8 @@ class ResponseFinder
 
   def blacklisted?(text)
     blacklist = [
-      /^(ha)+$/
+      /^(ha)+$/,
+      /^(ah)+$/,
     ]
     re = Regexp.union(blacklist)
     return re.match(text)
