@@ -38,7 +38,7 @@ namespace :telegram do
       payload: {
         message: {
           chat: {id: 62030274},
-          text: "oh, such strength is mine",
+          text: "hoho haha",
           message_id: 88
         }
       }

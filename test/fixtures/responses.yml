@@ -1,8 +1,8 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-    url: http://hydra-media.cursecdn.com/dota2.gamepedia.com/8/8f/Lion_level_01.mp3
-    text: oh, such strength is mine
+    url: http://hydra-media.cursecdn.com/dota2.gamepedia.com/1/17/Snip_ability_shrapnel_03.mp3
+    text: hoho, haha!
     hero: Lion
-    match: ohsuchstrengthismine
+    match: hohohaha
     file_id: 

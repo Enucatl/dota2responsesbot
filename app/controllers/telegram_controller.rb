@@ -34,7 +34,7 @@ class TelegramController < ApplicationController
           telegram_response = Telegramapi.new.send_voice(
             chat_id: chat_id,
             reply_to_message_id: message[:message_id],
-            voice: tmp_file
+            voice: Faraday::UploadIO.new(tmp_file.path, "multipart/form-data")
           )
         rescue Telegram::Bot::Exceptions::ResponseError => e
           logger.error(e.message)
