@@ -8,6 +8,9 @@ gem 'rails', '5'
 gem 'pg'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
+
+# Use jquery as the JavaScript library
+gem 'jquery-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
 
@@ -16,6 +19,7 @@ gem 'turbolinks'
 
 # Use Unicorn as the app server
 gem 'unicorn'
+gem 'rest-client'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -31,7 +35,6 @@ group :development do
 
   gem 'yml-secrets', git: 'https://github.com/Enucatl/secrets.git'
   # capistrano tasks
-  gem 'rest-client'
   gem 'capistrano'
   gem 'capistrano-secrets-yml'
   gem 'capistrano-rvm'
