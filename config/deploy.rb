@@ -1,5 +1,5 @@
 # config valid only for current version of Capistrano
-lock '3.4.0'
+lock '3.7.1'
 
 set :application, 'dota2responses'
 set :repo_url, 'https://github.com/Enucatl/dota2responsesbot.git'

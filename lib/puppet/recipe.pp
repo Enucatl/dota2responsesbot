@@ -9,6 +9,11 @@ package { 'openssl':
   before => Exec['ssl_certificates'],
 }
 
+package { 'gnupg2':
+  ensure => present,
+  before => Exec['import_rvm_key'],
+}
+
 package { 'libopus0':
   ensure => present,
 }
@@ -112,36 +117,31 @@ postgresql::server::role { 'dota2responsesbot':
   login => true,
 }
 
-exec { "gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3":
+exec { "import_rvm_key":
+  command => "gpg2 --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3",
   provider => shell,
   logoutput => true,
   cwd => "/home/dota2responsesbot",
   user => "dota2responsesbot",
-  before => Single_user_rvm::Install["dota2responsesbot"],
-  unless => "gpg --list-keys 409B6B1796C275462A1703113804BB82D39DC0E3",
+  before => Rvm::Ruby["ruby_installation"],
+  unless => "gpg2 --list-keys 409B6B1796C275462A1703113804BB82D39DC0E3",
   require => User["dota2responsesbot"],
 }
 
-single_user_rvm::install { 'dota2responsesbot': }
-
-single_user_rvm::install_ruby { '2.3.0':
-  user => 'dota2responsesbot'
+rvm::ruby { 'ruby_installation':
+  user => 'dota2responsesbot',
+  version => '2.4.0',
 }
 
-exec { "su -l dota2responsesbot -c 'rvm get stable --auto-dotfiles; rvm use --default ruby-2.3.0'":
-  path => "/usr/bin:/usr/sbin:/bin:~/.rvm/bin",
-  provider => shell,
-  logoutput => true,
-  cwd => "/home/dota2responsesbot",
-  unless => "su -l dota2responsesbot -c 'rvm current' | grep ruby-2.3.0",
-  require => Single_user_rvm::Install_ruby['2.3.0'],
+rvm::gem { 'bundler':
+  ruby => Rvm::Ruby['ruby_installation'],
 }
 
 class { 'nginx': }
 
-nginx::resource::upstream { 'dota2responsesbot-unicorn':
+nginx::resource::upstream { 'dota2responsesbotupstream':
   members => [
-    'unix:/tmp/unicorn.dota2responsesbot.sock fail_timeout=0',
+    'unix:/tmp/unicorn.dota2responsesbot.sock',
   ],
 }
 
@@ -188,7 +188,7 @@ nginx::resource::location { 'dota2responsesbot-unicorn-location':
       'Host' => '$http_host',
     },
     proxy_redirect => 'off',
-    proxy_pass => 'http://unicorn'
+    proxy_pass => 'http://dota2responsesbotupstream'
   },
 }
 

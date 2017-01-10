@@ -1,5 +1,6 @@
 require "rest-client"
 require "secrets"
+require "json"
 
 secrets = Secrets::Secret.new "config/digitalocean.yml"
 
@@ -40,7 +41,7 @@ namespace :digitalocean do
     headers = {
       Authorization: "Bearer #{secrets["digitalocean"]["token"]}"
     }
-    deletion_reponse = JSON.parse(RestClient.delete(url, headers))
+    deletion_reponse = RestClient.delete(url, headers)
     p "Destroying droplet..."
     p deletion_reponse
     secrets["digitalocean"]["droplet_ip"] = ""

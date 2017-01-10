@@ -6,6 +6,9 @@
 
 host = YAML.load_file("config/digitalocean.yml")[:digitalocean]["droplet_ip"]
 
+set :rvm_ruby_version, '2.4.0'
+set :rvm_custom_path, '~dota2responsesbot/.rvm'  # only needed if not detected
+
 user = "dota2responsesbot"
 role :app, "#{user}@#{host}"
 role :web, "#{user}@#{host}"
