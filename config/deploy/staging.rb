@@ -6,6 +6,7 @@
 
 host = YAML.load_file("config/digitalocean.yml")[:digitalocean]["droplet_ip"]
 
+set :rvm_custom_path, '~dota2responsesbot/.rvm'  # only needed if not detected
 role :root,  "root@#{host}"
 
 # Extended Server Syntax

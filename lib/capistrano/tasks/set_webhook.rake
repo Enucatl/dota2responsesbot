@@ -1,6 +1,7 @@
 require "rest-client"
 require "secrets"
 require "logger"
+require "json"
 
 logger = Logger.new STDOUT
 RestClient.log = logger

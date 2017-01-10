@@ -117,6 +117,11 @@ postgresql::server::role { 'dota2responsesbot':
   login => true,
 }
 
+postgresql::server::db { 'dota2responsesbot_production':
+  user => 'dota2responsesbot',
+  password => 'md58328b143eabb3fc8a2ab7d354bc27ce2',
+}
+
 exec { "import_rvm_key":
   command => "gpg2 --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3",
   provider => shell,
