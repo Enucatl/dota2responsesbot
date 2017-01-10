@@ -76,13 +76,6 @@ GEM
       sshkit (>= 1.2.0)
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
-    coffee-rails (4.2.1)
-      coffee-script (>= 2.2.0)
-      railties (>= 4.0.0, < 5.2.x)
-    coffee-script (2.4.1)
-      coffee-script-source
-      execjs
-    coffee-script-source (1.12.2)
     concurrent-ruby (1.0.4)
     debug_inspector (0.0.2)
     descendants_tracker (0.0.4)
@@ -91,7 +84,6 @@ GEM
       unf (>= 0.0.5, < 1.0.0)
     equalizer (0.0.11)
     erubis (2.7.0)
-    execjs (2.7.0)
     faraday (0.10.1)
       multipart-post (>= 1.2, < 3)
     globalid (0.3.7)
@@ -100,10 +92,6 @@ GEM
       domain_name (~> 0.5)
     i18n (0.7.0)
     ice_nine (0.11.2)
-    jquery-rails (4.2.2)
-      rails-dom-testing (>= 1, < 3)
-      railties (>= 4.2.0)
-      thor (>= 0.14, < 2.0)
     kgio (2.11.0)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
@@ -156,13 +144,6 @@ GEM
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
-    sass (3.4.23)
-    sass-rails (5.0.6)
-      railties (>= 4.0.0, < 6)
-      sass (~> 3.1)
-      sprockets (>= 2.8, < 4.0)
-      sprockets-rails (>= 2.0, < 4.0)
-      tilt (>= 1.1, < 3)
     spring (2.0.0)
       activesupport (>= 4.2)
     sprockets (3.7.1)
@@ -180,7 +161,6 @@ GEM
       virtus
     thor (0.19.4)
     thread_safe (0.3.5)
-    tilt (2.0.5)
     turbolinks (5.0.1)
       turbolinks-source (~> 5)
     turbolinks-source (5.0.0)
@@ -217,12 +197,9 @@ DEPENDENCIES
   capistrano-rails-db
   capistrano-rvm
   capistrano-secrets-yml
-  coffee-rails
-  jquery-rails
   pg
   rails (= 5)
   rest-client
-  sass-rails
   spring
   telegram-bot-ruby
   turbolinks
